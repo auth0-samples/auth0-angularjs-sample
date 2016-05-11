@@ -31,7 +31,8 @@
         <p>Click the button below to login.</p>
         <a class="btn btn-success btn-lg" ng-click="signin()">Sign In</a>
       </div>
-      <p ng-if="token">{{token}}</p>
+      <p>Profile from config: {{profile.name}}</p>
+      <p>Profile from controller: {{controllerProfile.name}}</p>
     </div>
   </body>
 </html>
