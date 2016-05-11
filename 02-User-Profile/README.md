@@ -1,4 +1,4 @@
-# Login Example
+# User Profile Example
 
 To run this sample, use `http-server` to run as a web server:
 
