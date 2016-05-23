@@ -1,8 +1,8 @@
 angular.module('app', ['auth0', 'angular-storage', 'angular-jwt', 'ngRoute'])
-.config(['$routeProvider', 'authProvider', 'jwtInterceptorProvider', configFunction])
+.config(['$routeProvider', 'authProvider', 'jwtInterceptorProvider', '$httpProvider', configFunction])
 .run(['$rootScope', 'auth', 'store', 'jwtHelper', '$location', runFunction]);
 
-function configFunction($routeProvider, authProvider){
+function configFunction($routeProvider, authProvider, jwtInterceptorProvider, $httpProvider){
   // Configure routes for your application
   $routeProvider
     .when( '/', {
@@ -15,10 +15,16 @@ function configFunction($routeProvider, authProvider){
       templateUrl: 'settings/settings.html',
       requiresLogin: true
     })
+    .when( '/ping', {
+      controller: 'PingCtrl',
+      templateUrl: 'ping/ping.html',
+      requiresLogin: true
+    })
     .when( '/login', {
       controller: 'LoginCtrl',
       templateUrl: 'login/login.html'
     });
+
 
     //Configure Auth0
     authProvider.init({
@@ -28,14 +34,15 @@ function configFunction($routeProvider, authProvider){
     });
 
     //Called when login is successful
-    authProvider.on('loginSuccess', ['$location', 'profilePromise', 'idToken', 'store',
-    function($location, profilePromise, idToken, store) {
+    authProvider.on('loginSuccess', ['$rootScope', '$location', 'profilePromise', 'idToken', 'store',
+    function($rootScope, $location, profilePromise, idToken, store) {
       // Successfully log in
       // Access to user profile and token
       profilePromise.then(function(profile){
         // profile
         store.set('profile', profile);
         store.set('token', idToken);
+        $rootScope.redirectModeProfile = profile
       });
       $location.url('/');
     }]);
@@ -45,11 +52,15 @@ function configFunction($routeProvider, authProvider){
       // If anything goes wrong
     });
 
-    authProvider.on('authenticated', function() {
-      // if user is authenticated.
-      // Useful in re-authentication
-    });
+    // JWT interceptor for HTTP requests
+    jwtInterceptorProvider.tokenGetter = function(store) {
+      return store.get('token');
+    }
 
+    // Add a simple interceptor that will fetch all requests and add the jwt token to its authorization header.
+    // NOTE: in case you are calling APIs which expect a token signed with a different secret, you might
+    // want to check the delegation-token example
+  $httpProvider.interceptors.push('jwtInterceptor');
   }
 
 function runFunction ($rootScope, auth, store, jwtHelper, $location){
@@ -76,4 +87,5 @@ function runFunction ($rootScope, auth, store, jwtHelper, $location){
     }
 
   });
+
 }

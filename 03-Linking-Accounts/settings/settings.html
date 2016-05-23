@@ -1,0 +1,42 @@
+<div class="jumbotron" ng-controller="LoginCtrl">
+  <h2 class="text-center"><img src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg"></h2>
+  <h2 class="text-center">Settings</h2>
+  <div>
+  </div>
+</div>
+
+<div class="container">
+  <h2 class="text-input">Link/Unlink Account</h2>
+  <hr />
+  <div class="row">
+    <div class="col-md-6">
+      <form class="form-inline" ng-submit="linkAccount()">
+        <div class="form-group">
+          <label for="">Link Provider: </label>
+          <select class="form-control" name="" ng-model="provider">
+            <option value="" default>Select Provider</option>
+            <option ng-repeat="provider in providers" value="{{provider.value}}">{{provider.title}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Submit" class="btn btn-primary">
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-6">
+      <form class="form-inline" ng-submit="unLinkAccount()">
+        <div class="form-group">
+          <label for="">Unlink Provider: </label>
+          <select class="form-control" name="" ng-model="unLinkProvider">
+            <option value="" default>Select Provider</option>
+            <option ng-repeat="provider in providers" value="{{provider.value}}">{{provider.title}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Submit" class="btn btn-warning">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
