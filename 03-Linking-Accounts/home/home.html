@@ -1,0 +1,29 @@
+<div class="jumbotron" ng-controller="LoginCtrl">
+  <h2 class="text-center"><img src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg"></h2>
+  <h2 class="text-center">Home</h2>
+  <div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Profile (Redirect mode)</h3>
+      <img src="{{redirectModeProfile.picture}}" alt="">
+      <p><strong>Name: </strong> {{redirectModeProfile.name}}</p>
+      <p><strong>Email: </strong> {{redirectModeProfile.email}}</p>
+      <p><strong>Nickname: </strong> {{redirectModeProfile.nickname}}</p>
+      <p><strong>Created At: </strong> {{redirectModeProfile.created_at}}</p>
+      <p><strong>Updated At: </strong> {{redirectModeProfile.updated_at}}</p>
+    </div>
+    <div class="col-md-6">
+      <h3>Profile from (Popup mode)</h3>
+      <img src="{{popupModeProfile.picture}}" alt="">
+      <p><strong>Name: </strong> {{popupModeProfile.name}}</p>
+      <p><strong>Email: </strong> {{popupModeProfile.email}}</p>
+      <p><strong>Nickname: </strong> {{popupModeProfile.nickname}}</p>
+      <p><strong>Created At: </strong> {{popupModeProfile.created_at}}</p>
+      <p><strong>Updated At: </strong> {{popupModeProfile.updated_at}}</p>
+    </div>
+  </div>
+</div>

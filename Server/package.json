@@ -1,0 +1,9 @@
+{
+  "name": "auth0-angular-sample-server",
+  "version": "1.0.0",
+  "main":"index.js",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4"
+  }
+}
