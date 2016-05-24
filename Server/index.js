@@ -1,9 +1,18 @@
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
+var jwt = require('express-jwt');
 var bodyParser = require('body-parser');
 
+var env = require('./env'); //See env.example for example
+
 var app = express();
+
+var authenticate = jwt({
+  secret: new Buffer(env.CLIENT_SECRET, 'base64'),
+  audience: env.CLIENT_ID
+});
+
 var TODO_STORE = path.join(__dirname, 'todo.json');
 
 app.set('port', (process.env.PORT || 5000));
@@ -13,14 +22,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(function(req, res, next) {
     // Handle CORS
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     // Disable caching
     res.setHeader('Cache-Control', 'no-cache');
     next();
 });
 
-app.get('/api/todos', function(req, res) {
-  console.log(req.headers)
+app.get('/api/todos', authenticate, function(req, res) {
+  console.log(req.headers, req.user)
   fs.readFile(TODO_STORE, function(err, todos) {
     if (err) {
       console.error(err);
