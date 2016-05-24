@@ -11,6 +11,7 @@ function loginCtrlFunc($scope, auth, store, $http){
   });
 
   $scope.addTodo = function(){
+    $scope.todo.creator = store.get('profile').name;
     $http.post(url, $scope.todo).then(function(response){
       $scope.todos = response.data;
     }, function(err){
