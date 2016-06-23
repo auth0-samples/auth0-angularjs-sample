@@ -43,9 +43,9 @@ function configFunction($routeProvider, authProvider, jwtInterceptorProvider, $h
         console.log(profile);
         store.set('profile', profile);
         store.set('token', idToken);
-        $rootScope.redirectModeProfile = profile
+        $rootScope.userProfile = profile;
+        $location.url('/');
       });
-      $location.url('/');
     }]);
 
     //Called when login fails
