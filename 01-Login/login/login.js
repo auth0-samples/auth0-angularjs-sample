@@ -4,6 +4,11 @@ angular.module('app')
 function loginCtrlFunc($scope, auth, store){
   $scope.auth = auth;
   $scope.login = function () {
-    auth.signin();
+    auth.signin({popup:true}, function(profile, idToken){
+      store.set('profile', profile);
+      store.set('token', idToken);
+    }, function(err){
+      // If anything goes wrong
+    });
   }
 }
