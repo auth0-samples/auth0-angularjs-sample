@@ -14,10 +14,14 @@ function settingsCtrlFunc($scope, auth, store, $window){
 
   var successCallback = function(response){
     $window.alert('Linked');
+    //we need to update stored profile
+    auth.getProfile(token).then(function(profile) {
+      store.set('profile', profile);
+    });
   }
 
   var errCallback = function(err){
-    $window.alert(err.data.message);
+    $window.alert(err.data);
   }
 
   $scope.linkAccount = function(){
@@ -27,16 +31,32 @@ function settingsCtrlFunc($scope, auth, store, $window){
   }
 
   $scope.unLinkAccount = function(){
+    //main provider connection
+    var connection = profile.identities[0].connection;
     var provider = $scope.unLinkProvider;
-    var options = {connection: provider}
+    var options = {connection: provider};
+
+    if(connection == provider) {
+      $window.alert('You cannot unlink current connection');
+      return;
+    }
 
     auth.getProfile(token).then(function(profile){
-
-      var secUserId = $scope.searchProvider(provider, profile.identities).user_id;
+      var secUser = $scope.searchProvider(provider, profile.identities);
+      //if user don't have linked account with this provider
+      if(!secUser){
+        $window.alert('You have no linked account with ' + provider + ' provider');
+        return;
+      }
+      var secUserId = secUser.user_id;
       auth.unLinkAccount(token, profile.user_id, provider, secUserId).then(function(res){
-        $window.alert('Unlinked')
+        $window.alert('Unlinked');
+        //we need to update stored profile
+        auth.getProfile(token).then(function(profile) {
+          store.set('profile', profile);
+        });
       }, function(err){
-        $window.alert('Unlink failed')
+        $window.alert('Unlink failed');
       });
     })
   }

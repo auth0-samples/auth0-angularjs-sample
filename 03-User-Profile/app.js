@@ -36,9 +36,9 @@ function configFunction($routeProvider, authProvider){
         // profile
         store.set('profile', profile);
         store.set('token', idToken);
-        $rootScope.redirectModeProfile = profile
+        //$rootScope.userProfile = profile;
+        $location.url('/');
       });
-      $location.url('/');
     }]);
 
     //Called when login fails
