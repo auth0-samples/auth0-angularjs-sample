@@ -21,6 +21,7 @@ function loginCtrlFunc($scope, auth, store, $location){
   }
 
   $scope.login = function () {
+    // Show loading indicator
     $scope.message = 'loading...';
    $scope.loading = true;
    auth.signin({
@@ -30,10 +31,11 @@ function loginCtrlFunc($scope, auth, store, $location){
      authParams: {
        scope: 'openid name email'
      }
-   }, onLoginSuccess, onLoginFailed);
+   });
   }
 
   $scope.signup = function () {
+    // Show loading indicator
     $scope.message = 'loading...';
    $scope.loading = true;
    auth.signup({
@@ -43,7 +45,7 @@ function loginCtrlFunc($scope, auth, store, $location){
      authParams: {
        scope: 'openid name email'
      }
-   }, onLoginSuccess, onLoginFailed);
+   });
   }
 
   $scope.googleLogin = function () {
@@ -51,9 +53,8 @@ function loginCtrlFunc($scope, auth, store, $location){
     $scope.loading = true;
 
     auth.signin({
-      popup: true,
       connection: 'google-oauth2',
       scope: 'openid name email'
-    }, onLoginSuccess, onLoginFailed);
+    });
   };
 }

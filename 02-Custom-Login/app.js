@@ -1,5 +1,5 @@
 angular.module('app', ['auth0', 'angular-storage', 'angular-jwt', 'ngRoute'])
-.config(['$routeProvider', 'authProvider', 'jwtInterceptorProvider', configFunction])
+.config(['$routeProvider', 'authProvider', configFunction])
 .run(['$rootScope', 'auth', 'store', 'jwtHelper', '$location', runFunction]);
 
 function configFunction($routeProvider, authProvider){
@@ -20,30 +20,38 @@ function configFunction($routeProvider, authProvider){
       templateUrl: 'login/login.html'
     });
 
-    //Configure Auth0
+   //Configure Auth0
     authProvider.init({
-      domain: 'chris92.auth0.com',
-      clientID: 'NZLIDgaaGwXtq7AcfJGPhZWne2YiSY1l',
+      domain: AUTH0_DOMAIN,
+      clientID: AUTH0_CLIENT_ID,
       loginUrl: '/login'
     });
 
     //Called when login is successful
-    authProvider.on('loginSuccess', ['$location', 'profilePromise', 'idToken', 'store',
-    function($location, profilePromise, idToken, store) {
+    authProvider.on('loginSuccess', ['$location', 'profilePromise', 'idToken', 'store', '$rootScope',
+    function($location, profilePromise, idToken, store, $rootScope) {
       // Successfully log in
       // Access to user profile and token
       profilePromise.then(function(profile){
-        // profile
-        store.set('profile', profile);
-        store.set('token', idToken);
+        // Empty loading message
+         $rootScope.message = '';
+         //Store credentials
+         store.set('profile', profile);
+         store.set('token', idToken);
+         // Hide loading indicator
+         $rootScope.loading = false;
+         // Go home
+         $location.path('/');
       });
-      $location.url('/');
     }]);
 
     //Called when login fails
-    authProvider.on('loginFailure', function() {
+    authProvider.on('loginFailure', ['$rootScope', function($rootScope) {
       // If anything goes wrong
-    });
+       $rootScope.message = 'invalid credentials';
+       // Hide loading indicator
+       $rootScope.loading = false;
+    }]);
 
     authProvider.on('authenticated', function() {
       // if user is authenticated.
@@ -68,12 +76,8 @@ function runFunction ($rootScope, auth, store, jwtHelper, $location){
         }
       } else {
         // Either show the login page
-        // $location.path('/');
-        // .. or
-        // or use the refresh token to get a new idToken
-        auth.refreshIdToken(token);
+        $location.path('/login');
       }
     }
-
   });
 }

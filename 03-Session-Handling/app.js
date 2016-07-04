@@ -29,6 +29,7 @@ function configFunction($routeProvider, authProvider){
   }
 
 function runFunction ($rootScope, auth, store, jwtHelper, $location){
+  $rootScope.authenticated = false;
   // Wrapper function to handle profile and toke storage
   var saveUserInfo = function(profile, token) {
     store.set('profile', profile);
@@ -50,6 +51,7 @@ function runFunction ($rootScope, auth, store, jwtHelper, $location){
       console.log(profile);
       // Save user info to local storage
       saveUserInfo(profile, authResult.idToken);
+      $rootScope.authenticated = true;
     })
   });
   // Called when authentication fails
@@ -68,12 +70,21 @@ function runFunction ($rootScope, auth, store, jwtHelper, $location){
         if (!auth.isAuthenticated) {
           // Re-authenticate with the user's profile
           auth.authenticate(store.get('profile'), token);
+          $rootScope.authenticated = true;
         }
       } else {
         // Show the login page
         $location.path('/login');
+        $rootScope.authenticated = true;
       }
     }
 
   });
+
+  $rootScope.logOut = function () {
+    store.remove('profile');
+    store.remove('token');
+    $location.url('/login');
+    $rootScope.authenticated = false;
+  }
 }

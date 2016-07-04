@@ -1,6 +1,7 @@
 <html ng-app="app">
   <head>
-    <title>00 - Starter Seed</title>
+      <title>05 - Linking Accounts</title>
+      <!-- Auth0's lock widget library -->
       <!-- Auth0's lock widget library -->
       <script type="text/javascript" src="https://cdn.auth0.com/js/lock/10.0.0-rc.1/lock.min.js"></script>
       <!-- Auth0 JavaScript library -->
@@ -18,6 +19,7 @@
       <!-- Angular wrapper library for JWT-->
       <script src="http://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.min.js" type="text/javascript"> </script>
       <!-- Your angular app and other script files-->
+      <script src="auth0-variables.js" type="text/javascript"> </script>
       <script src="app.js" type="text/javascript"> </script>
       <script src="home/home.js" type="text/javascript"> </script>
       <script src="login/login.js" type="text/javascript"> </script>
@@ -42,9 +44,12 @@
             <a class="navbar-brand" href="#/">Auth0</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav" ng-show="authenticated">
               <li><a href="#/">Home</a></li>
               <li><a href="#/settings">Settings</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" ng-show="authenticated">
+              <li><a style="cursor:pointer" ng-click="logOut()">Logout</a></li>
             </ul>
           </div>
         </div>
