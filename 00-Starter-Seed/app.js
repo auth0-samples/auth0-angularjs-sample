@@ -11,8 +11,8 @@
     function config($routeProvider, lockProvider) {
 
       lockProvider.init({
-        clientID: 'w4ibtscMzP2Zs3jk6MteHwXZ422gGyQc',
-        domain: 'blogtest.auth0.com'
+        clientID: AUTH0_CLIENT_ID,
+        domain: AUTH0_DOMAIN
       });
 
       $routeProvider
