@@ -3,4 +3,3 @@ Server/env.js
 .vscode/
 bower_components
 node_modules
-auth0-variables.js
