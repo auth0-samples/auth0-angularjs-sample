@@ -1,0 +1,26 @@
+{
+  "name": "00-Starter-Seed",
+  "homepage": "https://github.com/auth0-samples/auth0-angularjs-sample",
+  "authors": [
+    "Ryan Chenkie <ryanchenkie@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-lock": "~1.0.0",
+    "angular-jwt": "~0.1.0",
+    "angular-route": "~1.5.8",
+    "bootstrap": "~3.3.7",
+    "angular-storage": "~0.5.0"
+  }
+}
