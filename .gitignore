@@ -2,5 +2,4 @@ Server/node_modules
 Server/env.js
 .vscode/
 bower_components
-node_modules
-.gitignore
+.DS_Store
