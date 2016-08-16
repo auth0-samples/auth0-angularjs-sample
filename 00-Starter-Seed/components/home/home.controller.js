@@ -6,11 +6,10 @@
     .module('app')
     .controller('homeController', homeController);
 
-    homeController.$inject = ['$rootScope', '$scope', 'authService', 'authManager', 'store'];
+    homeController.$inject = ['$rootScope', '$scope', 'authService', 'authManager'];
 
-    function homeController($rootScope, $scope, authService, authManager, store) {
+    function homeController($rootScope, $scope, authService, authManager) {
       
-      console.log(store);
       // Set the user profile when the page is refreshed
       $scope.profile = authService.userProfile;
 
