@@ -26,7 +26,7 @@ lockProvider.init({
 To run this starter seed, you can use `http-server`:
 
 ```bash
-npm install http-server
+npm install -g http-server
 
 http-server
 ```

@@ -17,9 +17,10 @@
     "tests"
   ],
   "dependencies": {
-    "angular-lock": "~1.0.0-alpha.0",
-    "angular-jwt": "~0.0.9",
+    "angular-lock": "~1.0.0",
+    "angular-jwt": "~0.1.0",
     "angular-route": "~1.5.8",
-    "bootstrap": "~3.3.7"
+    "bootstrap": "~3.3.7",
+    "angular-storage": "~0.5.0"
   }
 }

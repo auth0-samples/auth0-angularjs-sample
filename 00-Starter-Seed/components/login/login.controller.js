@@ -6,10 +6,13 @@
     .module('app')
     .controller('loginController', loginController);
 
-    loginController.$inject = ['$scope', 'auth'];
+    loginController.$inject = ['$scope', 'authService'];
 
-    function loginController($scope, auth) {
-      $scope.auth = auth;
+    function loginController($scope, authService) {
+
+      // Put the authService on $scope to access
+      // the login method in the view
+      $scope.authService = authService;
     }
 
 })();
