@@ -8,7 +8,7 @@ This project shows an example of adding passwordless authentication to an Angula
 bower install
 ```
 
-Place your Auth0 `clientID` and `domain` in `lockProvider.init`.
+Place your Auth0 `clientID` and `domain` in `lockPasswordlessProvider.init`.
 
 ```js
 // app.js
