@@ -1,6 +1,6 @@
-# 00 - Starter Seed
+# 02 - Custom Login
 
-This seed project shows an example of adding authentication to an Angular 1.x app with Auth0. It uses Lock v10 and angular-lock.
+This seed project shows an example of adding custom authentication to an Angular 1.x app with Auth0. This is useful for cases where you would like to provide your own UI for authenticating users. The sample uses [auth0.js](https://github.com/auth0/auth0.js) and [angular-auth0](https://github.com/auth0/angular-auth0).
 
 ## Installation
 
@@ -8,17 +8,48 @@ This seed project shows an example of adding authentication to an Angular 1.x ap
 bower install
 ```
 
-Place your Auth0 `clientID` and `domain` in `lockProvider.init`.
+Place your Auth0 `clientID` and `domain` in `angularAuth0Provider.init`.
 
 ```js
 // app.js
 
 ...
 
-lockProvider.init({
+// Initialization for the angular-auth0 library
+angularAuth0Provider.init({
   clientID: AUTH0_CLIENT_ID,
   domain: AUTH0_DOMAIN
 });
+
+...
+```
+
+Provide functions for logging in and signing up.
+
+```js
+// components/auth/auth.service.js
+
+...
+
+function authService($rootScope, angularAuth0, authManager, $location) {
+
+  function login(username, password, callback) {
+    angularAuth0.login({
+      connection: 'Username-Password-Authentication',
+      responseType: 'token',
+      email: username,
+      password: password,
+    }, callback);
+  }
+
+  function signup(username, password, callback) {
+    angularAuth0.signup({
+      connection: 'Username-Password-Authentication',
+      responseType: 'token',
+      email: username,
+      password: password
+    }, callback);
+  }
 
 ...
 ```
