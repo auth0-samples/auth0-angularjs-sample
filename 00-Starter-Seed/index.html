@@ -18,23 +18,23 @@
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#/">Auth0</a>
+          <a class="navbar-brand" ui-sref="home">Auth0</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#/">Home</a></li>
-            <li ng-if="isAuthenticated"><a href="#/ping">Ping</a></li>
-            <li ng-if="!isAuthenticated"><a href="#/login">Log In</a></li>
-            <li ng-if="isAuthenticated"><a href="#/" ng-click="authService.logout()">Log Out</a></li>
+            <li><a ui-sref="home">Home</a></li>
+            <li ng-if="isAuthenticated"><a ui-sref="ping">Ping</a></li>
+            <li ng-if="!isAuthenticated"><a ui-sref="login">Log In</a></li>
+            <li ng-if="isAuthenticated"><a ui-sref="home" ng-click="authService.logout()">Log Out</a></li>
           </ul>
         </div>
       </div>
     </nav>
     
-    <div ng-view></div>
+    <div ui-view></div>
 
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
-    <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script type="text/javascript" src="bower_components/auth0-lock/build/lock.js"></script>
     <script type="text/javascript" src="bower_components/angular-lock/dist/angular-lock.js"></script>
     <script type="text/javascript" src="bower_components/angular-jwt/dist/angular-jwt.js"></script>

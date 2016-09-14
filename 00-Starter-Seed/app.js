@@ -3,12 +3,12 @@
   'use strict';
 
   angular
-    .module('app', ['auth0.lock', 'angular-jwt', 'ngRoute'])
+    .module('app', ['auth0.lock', 'angular-jwt', 'ui.router'])
     .config(config);
 
-    config.$inject = ['$routeProvider', '$httpProvider', 'lockProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider'];
+    config.$inject = ['$httpProvider', 'lockProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', '$stateProvider', '$urlRouterProvider','$locationProvider'];
 
-    function config($routeProvider, $httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider) {
+    function config($httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider, $stateProvider, $urlRouterProvider, $locationProvider) {
 
       // Initialization for the Lock widget
       lockProvider.init({
@@ -29,16 +29,21 @@
       // so that JWTs are attached as Authorization headers
       $httpProvider.interceptors.push('jwtInterceptor');
 
-      $routeProvider
-        .when('/', {
+      // $urlRouterProvider.otherwise('/home');
+
+      $stateProvider
+        .state('home', {
+          url: '/home',
           controller: 'homeController',
           templateUrl: 'components/home/home.html'
         })
-        .when('/login', {
+        .state('login', {
+          url: '/login',
           controller: 'loginController',
           templateUrl: 'components/login/login.html'
         })
-        .when('/ping', {
+        .state('ping', {
+          url: '/ping',
           controller: 'pingController',
           templateUrl: 'components/ping/ping.html'
         });

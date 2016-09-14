@@ -6,9 +6,9 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['$rootScope', 'lock', 'authManager'];
+  authService.$inject = ['$rootScope', 'lock', 'authManager', '$state'];
 
-  function authService($rootScope, lock, authManager) {
+  function authService($rootScope, lock, authManager, $state) {
 
     var userProfile = JSON.parse(localStorage.getItem('profile')) || {};
 
@@ -31,6 +31,8 @@
       lock.on('authenticated', function(authResult) {
         localStorage.setItem('id_token', authResult.idToken);
         authManager.authenticate();
+
+        $state.go('ping');
 
         lock.getProfile(authResult.idToken, function(error, profile) {
           if (error) {

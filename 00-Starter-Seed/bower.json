@@ -21,6 +21,7 @@
     "angular-jwt": "~0.1.0",
     "angular-route": "~1.5.8",
     "bootstrap": "~3.3.7",
-    "angular-storage": "~0.5.0"
+    "angular-storage": "~0.5.0",
+    "angular-ui-router": "~0.3.1"
   }
 }
