@@ -32,7 +32,8 @@
 
     function googleLogin(callback) {
       angularAuth0.login({
-        connection: 'google-oauth2'
+        connection: 'google-oauth2',
+        responseType: 'token'
       }, callback);
     }
 
