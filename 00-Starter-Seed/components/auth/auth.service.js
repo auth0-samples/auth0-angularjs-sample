@@ -36,40 +36,28 @@
     // Set up the logic for when a user authenticates
     // This method is called from app.run.js
     function registerAuthenticationListener() {
-      lock.on('authenticated', onAuth);
-    }
+      lock.on('authenticated', function(authResult) {
+        localStorage.setItem('id_token', authResult.idToken);
+        authManager.authenticate();
 
-    function onAuth(authResult) {
-      localStorage.setItem('id_token', authResult.idToken);
-      authManager.authenticate();
-      
-      lock.getProfile(authResult.idToken, function(error, profile) {
-        if (error) {
-          console.log(error);
-        }
+        lock.getProfile(authResult.idToken, function(error, profile) {
+          if (error) {
+            console.log(error);
+          }
 
-        localStorage.setItem('profile', JSON.stringify(profile));
-        setUserProfile(profile);
-        $rootScope.$broadcast('userProfileSet', profile);
-        $state.go('home');
+          localStorage.setItem('profile', JSON.stringify(profile));
+          setUserProfile(profile);
+          $state.go('home');
+          $rootScope.$broadcast('userProfileSet', profile);
+        });
       });
-    }
-
-    function authInterceptor() {
-      var auth0 = new Auth0({clientID: AUTH0_CLIENT_ID, domain: AUTH0_DOMAIN});
-      var authResult = auth0.parseHash(window.location.hash);
-      if (authResult && authResult.idToken) {
-        onAuth(authResult);
-      }
     }
 
     return {
       getUserProfile: getUserProfile,
-      userProfile: userProfile,
       login: login,
       logout: logout,
       registerAuthenticationListener: registerAuthenticationListener,
-      authInterceptor: authInterceptor
     }
   }
 })();

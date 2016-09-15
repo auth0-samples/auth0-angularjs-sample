@@ -6,8 +6,6 @@
     .module('app')
     .run(function($rootScope, authService, authManager) {
 
-      authService.authInterceptor();
-
       // Put the authService on $rootScope so its methods
       // can be accessed from the nav bar
       $rootScope.authService = authService;
