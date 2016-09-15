@@ -12,6 +12,14 @@
 
     var userProfile = JSON.parse(localStorage.getItem('profile')) || {};
 
+    function getUserProfile() {
+      return userProfile;
+    }
+
+    function setUserProfile(profile) {
+      userProfile = profile;
+    }
+
     function login() {
       lock.show();
     }
@@ -34,16 +42,16 @@
     function onAuth(authResult) {
       localStorage.setItem('id_token', authResult.idToken);
       authManager.authenticate();
-
-      $state.go('home');
-
+      
       lock.getProfile(authResult.idToken, function(error, profile) {
         if (error) {
           console.log(error);
         }
 
         localStorage.setItem('profile', JSON.stringify(profile));
+        setUserProfile(profile);
         $rootScope.$broadcast('userProfileSet', profile);
+        $state.go('home');
       });
     }
 
@@ -56,6 +64,7 @@
     }
 
     return {
+      getUserProfile: getUserProfile,
       userProfile: userProfile,
       login: login,
       logout: logout,
