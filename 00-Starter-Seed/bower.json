@@ -16,6 +16,9 @@
     "test",
     "tests"
   ],
+  "resolutions": {
+    "angular": "~1.5.8"
+  },
   "dependencies": {
     "angular-lock": "~1.0.1",
     "angular-jwt": "~0.1.0",
