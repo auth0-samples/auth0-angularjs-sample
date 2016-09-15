@@ -13,7 +13,14 @@
       // Initialization for the Lock widget
       lockProvider.init({
         clientID: AUTH0_CLIENT_ID,
-        domain: AUTH0_DOMAIN
+        domain: AUTH0_DOMAIN,
+        options: {
+          auth: {
+            params: {
+              scope: 'openid'
+            }
+          }
+        }
       });
 
       // Configuration for angular-jwt
@@ -25,15 +32,15 @@
         unauthenticatedRedirectPath: '/login'
       });
 
+      $locationProvider.html5Mode(true);
+      
       // Add the jwtInterceptor to the array of HTTP interceptors
       // so that JWTs are attached as Authorization headers
       $httpProvider.interceptors.push('jwtInterceptor');
 
-      // $urlRouterProvider.otherwise('/home');
-
       $stateProvider
         .state('home', {
-          url: '/home',
+          url: '/',
           controller: 'homeController',
           templateUrl: 'components/home/home.html'
         })
@@ -47,6 +54,8 @@
           controller: 'pingController',
           templateUrl: 'components/ping/ping.html'
         });
+
+      $urlRouterProvider.otherwise('/');
     }
 
 })();

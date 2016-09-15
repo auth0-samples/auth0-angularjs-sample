@@ -1,6 +1,6 @@
 # 00 - Starter Seed
 
-This seed project shows an example of adding authentication to an Angular 1.x app with Auth0. It uses Lock v10 and angular-lock.
+This seed project shows an example of adding authentication to an Angular 1.x app with Auth0 using UI Router. It uses Lock v10 and angular-lock.
 
 ## Installation
 
