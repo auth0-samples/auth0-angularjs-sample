@@ -1,0 +1,17 @@
+{
+  "name": "Auth0 - Angular 1.x Sample",
+  "description": "Sample app showing how to use Auth0 with Angular 1.x",
+  "repository": "https://github.com/auth0-samples/auth0-angularjs-sample",
+  "logo": "https://i.cloudup.com/auqjMuBIQ5-3000x3000.png",
+  "keywords": ["angular", "auth0"],
+  "env": {
+    "CLIENT_ID": {
+      "description": "Client ID for the user's Auth0 account",
+      "value": "BUIJSW9x60sIHBw8Kd9EmCbj8eDIFxDC"
+    },
+    "DOMAIN": {
+      "description": "Domain for the user's Auth0 account",
+      "value": "samples.auth0.com"
+    }
+  }
+}
