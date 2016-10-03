@@ -4,8 +4,12 @@
 
   angular
     .module('app')
-    .run(function($rootScope, authService, authManager) {
+    .run(function($rootScope, authService, authManager, lock) {
 
+      // Intercept the hash that comes back from authentication
+      // to ensure the `authenticated` event fires
+      lock.interceptHash();
+      
       // Put the authService on $rootScope so its methods
       // can be accessed from the nav bar
       $rootScope.authService = authService;
