@@ -1,4 +1,3 @@
 bower_components
 node_modules
 .DS_Store
-auth0-variables.js
