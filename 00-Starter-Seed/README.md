@@ -8,7 +8,7 @@ This seed project shows an example of adding authentication to an Angular 1.x ap
 bower install
 ```
 
-Place your Auth0 `clientID` and `domain` in `lockProvider.init`.
+Rename the `auth0-variables.js.example` file to `auth0-variables.js` and populate it with your Auth0 credentials. These values will be used in `lockProvider.init`.
 
 ```js
 // app.js
