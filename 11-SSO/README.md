@@ -1,4 +1,4 @@
-# SSO
+# Single Sign-On
 
 This example shows how to ***Login*** using Single Sign On
 
