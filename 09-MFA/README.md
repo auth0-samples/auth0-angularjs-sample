@@ -22,3 +22,24 @@ ionic state restore --plugins
 # Run
 ionic serve
 ```
+
+
+## Important Snippets
+
+### 1. Login
+
+```js
+// components/login/login.controller.js
+(function () {
+
+  ...
+
+  function LoginController(authService) {
+
+    var vm = this;
+    vm.authService = authService;
+
+  }
+
+}());
+```
