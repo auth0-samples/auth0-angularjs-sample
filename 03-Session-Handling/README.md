@@ -22,3 +22,105 @@ npm install -g serve
 # Run
 serve
 ```
+
+
+## Important Snippets
+
+### 1. Save token on login
+
+```js
+// components/auth/auth.service.js
+(function () {
+
+  ...
+
+  function authService($rootScope, lock, authManager, jwtHelper) {
+
+    ...
+
+    // Set up the logic for when a user authenticates
+    // This method is called from app.run.js
+    function registerAuthenticationListener() {
+      lock.on('authenticated', function (authResult) {
+        localStorage.setItem('id_token', authResult.idToken);
+        authManager.authenticate();
+      });
+    }
+
+    ...
+
+    return {
+      ...
+      
+      registerAuthenticationListener: registerAuthenticationListener,
+      
+      ...
+    }
+  }
+})();
+```
+
+### 2. Check if user is authenticated
+
+```js
+// components/auth/auth.service.js
+(function () {
+
+  ...
+
+  function authService($rootScope, lock, authManager, jwtHelper) {
+
+    ...
+    function checkAuthOnRefresh() {
+      var token = localStorage.getItem('id_token');
+      if (token) {
+        if (!jwtHelper.isTokenExpired(token)) {
+          if (!$rootScope.isAuthenticated) {
+            authManager.authenticate();
+          }
+        }
+      }
+    }
+
+    return {
+      ...
+     
+      checkAuthOnRefresh: checkAuthOnRefresh
+    }
+  }
+})();
+```
+
+
+### 3. Logout
+
+```js
+// components/auth/auth.service.js
+(function () {
+
+  ...
+
+  function authService($rootScope, lock, authManager, jwtHelper) {
+
+    ...
+
+    // Logging out just requires removing the user's
+    // id_token and profile
+    function logout() {
+      localStorage.removeItem('id_token');
+      localStorage.removeItem('profile');
+      authManager.unauthenticate();
+    }
+
+    ...
+
+    return {
+      ...
+      
+      logout: logout,
+      
+      ...
+    }
+  }
+})();
+```
