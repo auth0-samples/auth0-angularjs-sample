@@ -62,3 +62,51 @@ Both endpoints send a JSON response with a message attribute, but `/secured/ping
 To test the server, run `node server.js`. It should be listening on port 3001 of `localhost`.
 
 Also you can [view](https://github.com/auth0-samples/auth0-angularjs-sample/tree/master/Server) the simple server on GitHub.
+
+
+## Important Snippets
+
+### 1. Implement the ping controller
+
+```js
+// components/ping/ping.controller.js
+(function () {
+
+  ...
+
+  function PingController(authService, $http) {
+
+    var vm = this;
+    vm.authService = authService;
+
+    // The user's JWT will automatically be attached
+    // as an authorization header on HTTP requests
+    vm.ping = function () {
+      $http.get('http://localhost:3001/secured/ping')
+        .then(function (result) {
+          vm.pingResult = result.data.text;
+        }, function (error) {
+          console.log(error);
+          vm.pingResult = error.statusText;
+        });
+    }
+
+  }
+
+}());
+```
+
+### 2. Display `ping` buttons in the ping view 
+
+```html
+<!-- components/ping/ping.html -->
+
+<div class="jumbotron">
+  <h2 class="text-center"><img src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg"></h2>
+  <h2 class="text-center">Ping</h2>
+  <div class="text-center">
+    <button ng-click="vm.ping()" class="btn btn-primary">Ping</button>
+    <h2 ng-if="vm.pingResult">{{ vm.pingResult }}</h2>
+  </div>
+</div>
+```
