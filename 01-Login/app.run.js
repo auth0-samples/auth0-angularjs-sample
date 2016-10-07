@@ -17,7 +17,7 @@
     // set up in auth.service.js
     authService.registerAuthenticationListener();
 
-    // Register synchronous hash parser
+    // Register the synchronous hash parser
     lock.interceptHash();
   }
 
