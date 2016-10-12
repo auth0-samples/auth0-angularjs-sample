@@ -18,7 +18,6 @@
     // id_token and profile
     function logout() {
       localStorage.removeItem('id_token');
-      localStorage.removeItem('profile');
       authManager.unauthenticate();
     }
 

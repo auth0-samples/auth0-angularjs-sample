@@ -8,9 +8,10 @@
     <h2>Welcome, {{ vm.profile.nickname }}</h2>
     <img ng-src="{{ vm.profile.picture }}">
   </div>
-  <div class="identities-wrap">
-    <button ng-if="isAuthenticated" class="btn btn-primary" ng-click="vm.linkAccount()">Link Account</button>
+  <div class="identities-wrap" ng-if="isAuthenticated">
+    <button class="btn btn-primary" ng-click="vm.linkAccount()">Link Account</button>
     <ul class="list-group identities-list">
+      <h3>Associated Accounts</h3>
       <li class="list-group-item identities-item" ng-repeat="identity in vm.identities">
         <img ng-src="{{identity.profileData.picture}}"/>
         <span>{{ identity.profileData.name || identity.profileData.email }}</span>
