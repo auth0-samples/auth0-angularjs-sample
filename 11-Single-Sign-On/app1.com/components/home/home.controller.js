@@ -6,9 +6,9 @@
     .module('app')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['authService'];
+  HomeController.$inject = ['authService', 'angularAuth0'];
 
-  function HomeController(authService) {
+  function HomeController(authService, angularAuth0) {
 
     var vm = this;
     vm.authService = authService;
@@ -18,7 +18,8 @@
     });
 
     vm.logoutFromAuth0 = function() {
-      var auth0LogoutWindow = window.open('https://'+AUTH0_DOMAIN+'/logout', '_blank');
+      angularAuth0.logout({returnTo: 'http://localhost:3000/'});
+      authService.logout();
     }
 
   }

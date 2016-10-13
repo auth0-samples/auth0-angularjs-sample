@@ -32,7 +32,8 @@
     // Initialization for the angular-auth0 library
     angularAuth0Provider.init({
       clientID: AUTH0_CLIENT_ID,
-      domain: AUTH0_DOMAIN
+      domain: AUTH0_DOMAIN,
+      callbackURL: 'http://localhost:3001'
     });
 
     $urlRouterProvider.otherwise('/home');

@@ -8,10 +8,13 @@ You can read a more about client-side SSO in the Single Page Applications [here]
 
 To run this quickstart you can fork and clone this repo.
 
-Be sure to set the correct values for your Auth0 applications in both `auth0.variables.js` files.
+Be sure to set the correct Auth0 credentials for your applications in the `auth0-variables.js` files of both applications in this sample.
 
 Go to your [Clients](https://manage.auth0.com/#/clients), open your App, switch the `Use Auth0 instead of the IdP to do Single Sign On` flag on and save changes.
-If you use two Auth0 applications for this example, then enable `Use Auth0 instead of the IdP to do Single Sign On` flag for both of them.  
+
+If you use two Auth0 applications for this example, enable `Use Auth0 instead of the IdP to do Single Sign On` flag for both of them.
+
+You will also need to whitelist the URLs you want to redirect to when you log out of Auth0 SSO. These can be set in the [advanced settings](https://manage.auth0.com/#/account/advanced).  
 
 To run applications
 
@@ -47,10 +50,8 @@ Click `Logout from your Auth0 application` button on the example's `Home` page t
 ```html
 <!-- index.html -->
 <body>
-  ...
-  <!-- Auth0's Lock-Passwordless library -->
+  <!--auth0.js library -->
   <script type="text/javascript" src="bower_components/angular-auth0/dist/angular-auth0.js"></script>
-  ...
 </body>
 ```
 
@@ -61,15 +62,11 @@ Click `Logout from your Auth0 application` button on the example's `Home` page t
 
 (function () {
 
-  ...
-
   function run($rootScope, authService, lock, $timeout) {
   
     ...
 
     $timeout(authService.checkAuthOnRefresh);
-
-    ...
     
   }
 
@@ -82,8 +79,6 @@ Click `Logout from your Auth0 application` button on the example's `Home` page t
 // components/auth/auth.service.js
 
 (function () {
-
-  ...
 
   function authService($rootScope, lock, angularAuth0, authManager, jwtHelper, $q) {
 
@@ -110,8 +105,6 @@ Click `Logout from your Auth0 application` button on the example's `Home` page t
     }
 
     return {
-    
-      ...
       
       checkAuthOnRefresh: checkAuthOnRefresh,
       
@@ -138,26 +131,28 @@ Click `Logout from your Auth0 application` button on the example's `Home` page t
   </div>
   <div class="text-center">
     <h2><a href="http://localhost:3001">Open the application #2</a></h2>
-    <button class="btn btn-danger" ng-click="vm.logoutFromAuth0()">Logout from your Auth0 application</button>
+    <button class="btn btn-danger" ng-click="vm.logoutFromAuth0()">Logout from your Auth0 applications</button>
   </div>
 </div>
 ```
 
-### 5. Update `HomeController`
+### 5. Add SSO Logout
+
+The **Logout** link in the navbar logs the user out from the individual app, but to log the user out of SSO, you must call `auth0Angular.logout`.
+
+> **Note:** You must set the URL that is allowed to be redirected to after logout in your [Auth0 advanced settings](https://manage.auth0.com/#/account/advanced). 
 
 ```js
 // components/home/home.controller.js
 
 (function () {
 
-  ...
-
   function HomeController(authService) {
 
     ...
 
     vm.logoutFromAuth0 = function() {
-      var auth0LogoutWindow = window.open('https://'+AUTH0_DOMAIN+'/logout', '_blank');
+      angularAuth0.logout({returnTo: 'http://localhost:3001/'});
     }
 
   }

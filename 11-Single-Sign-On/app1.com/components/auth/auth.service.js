@@ -50,11 +50,6 @@
       });
     }
 
-    var ttt = false;
-    lock.on('test', function () {
-      console.log('test');
-      ttt = true;
-    });
     function getProfileDeferred() {
       return deferredProfile.promise;
     }
