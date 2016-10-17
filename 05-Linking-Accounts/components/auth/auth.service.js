@@ -6,9 +6,9 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['$rootScope', 'lock', 'authManager', 'jwtHelper', '$q', '$http'];
+  authService.$inject = ['lock', 'authManager', '$q', '$http'];
 
-  function authService($rootScope, lock, authManager, jwtHelper, $q, $http) {
+  function authService(lock, authManager, $q, $http) {
 
     var userProfile = JSON.parse(localStorage.getItem('profile')) || null;
     var deferredProfile = $q.defer();

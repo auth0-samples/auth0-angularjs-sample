@@ -6,9 +6,9 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['$rootScope', 'lock', 'authManager', 'jwtHelper'];
+  authService.$inject = ['lock', 'authManager'];
 
-  function authService($rootScope, lock, authManager, jwtHelper) {
+  function authService(lock, authManager) {
 
     function login() {
       lock.show();
