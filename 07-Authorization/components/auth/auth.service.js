@@ -6,9 +6,9 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['$rootScope', 'lock', 'authManager', 'jwtHelper', '$q'];
+  authService.$inject = ['$rootScope', 'lock', 'authManager', '$q'];
 
-  function authService($rootScope, lock, authManager, jwtHelper, $q) {
+  function authService($rootScope, lock, authManager, $q) {
 
     var userProfile = JSON.parse(localStorage.getItem('profile')) || null;
     var deferredProfile = $q.defer();
@@ -55,17 +55,6 @@
       return deferredProfile.promise;
     }
 
-    function checkAuthOnRefresh() {
-      var token = localStorage.getItem('id_token');
-      if (token) {
-        if (!jwtHelper.isTokenExpired(token)) {
-          if (!$rootScope.isAuthenticated) {
-            authManager.authenticate();
-          }
-        }
-      }
-    }
-
     function isAdmin() {
       return userProfile && userProfile.app_metadata
         && userProfile.app_metadata.roles
@@ -85,7 +74,6 @@
       login: login,
       logout: logout,
       registerAuthenticationListener: registerAuthenticationListener,
-      checkAuthOnRefresh: checkAuthOnRefresh,
       getProfileDeferred: getProfileDeferred
     }
   }

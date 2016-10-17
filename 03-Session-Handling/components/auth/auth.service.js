@@ -6,9 +6,9 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['$rootScope', 'lock', 'authManager', 'jwtHelper'];
+  authService.$inject = ['lock', 'authManager'];
 
-  function authService($rootScope, lock, authManager, jwtHelper) {
+  function authService(lock, authManager) {
 
     function login() {
       lock.show();
@@ -30,22 +30,10 @@
       });
     }
 
-    function checkAuthOnRefresh() {
-      var token = localStorage.getItem('id_token');
-      if (token) {
-        if (!jwtHelper.isTokenExpired(token)) {
-          if (!$rootScope.isAuthenticated) {
-            authManager.authenticate();
-          }
-        }
-      }
-    }
-
     return {
       login: login,
       logout: logout,
-      registerAuthenticationListener: registerAuthenticationListener,
-      checkAuthOnRefresh: checkAuthOnRefresh
+      registerAuthenticationListener: registerAuthenticationListener
     }
   }
 })();

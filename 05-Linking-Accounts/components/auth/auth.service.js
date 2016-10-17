@@ -6,9 +6,9 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['$rootScope', 'lock', 'authManager', 'jwtHelper', '$q', '$http'];
+  authService.$inject = ['lock', 'authManager', '$q', '$http'];
 
-  function authService($rootScope, lock, authManager, jwtHelper, $q, $http) {
+  function authService(lock, authManager, $q, $http) {
 
     var userProfile = JSON.parse(localStorage.getItem('profile')) || null;
     var deferredProfile = $q.defer();
@@ -52,17 +52,6 @@
 
     function getProfileDeferred() {
       return deferredProfile.promise;
-    }
-
-    function checkAuthOnRefresh() {
-      var token = localStorage.getItem('id_token');
-      if (token) {
-        if (!jwtHelper.isTokenExpired(token)) {
-          if (!$rootScope.isAuthenticated) {
-            authManager.authenticate();
-          }
-        }
-      }
     }
 
     function linkAccount() {
@@ -158,7 +147,6 @@
       login: login,
       logout: logout,
       registerAuthenticationListener: registerAuthenticationListener,
-      checkAuthOnRefresh: checkAuthOnRefresh,
       getProfileDeferred: getProfileDeferred,
       linkAccount: linkAccount,
       unLinkAccount: unLinkAccount
