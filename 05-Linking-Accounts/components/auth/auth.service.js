@@ -54,17 +54,6 @@
       return deferredProfile.promise;
     }
 
-    function checkAuthOnRefresh() {
-      var token = localStorage.getItem('id_token');
-      if (token) {
-        if (!jwtHelper.isTokenExpired(token)) {
-          if (!$rootScope.isAuthenticated) {
-            authManager.authenticate();
-          }
-        }
-      }
-    }
-
     function linkAccount() {
       try {
         var profile = JSON.parse(localStorage.getItem('profile'));
@@ -158,7 +147,6 @@
       login: login,
       logout: logout,
       registerAuthenticationListener: registerAuthenticationListener,
-      checkAuthOnRefresh: checkAuthOnRefresh,
       getProfileDeferred: getProfileDeferred,
       linkAccount: linkAccount,
       unLinkAccount: unLinkAccount

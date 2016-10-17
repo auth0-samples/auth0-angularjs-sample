@@ -17,7 +17,7 @@
     // set up in auth.service.js
     authService.registerAuthenticationListener();
 
-    // Use the authService to check for
+    // Use the authManager from angular-jwt to check for
     // the user's authentication state when the page is
     // refreshed and maintain authentication
     authManager.checkAuthOnRefresh();

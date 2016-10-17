@@ -30,22 +30,10 @@
       });
     }
 
-    function checkAuthOnRefresh() {
-      var token = localStorage.getItem('id_token');
-      if (token) {
-        if (!jwtHelper.isTokenExpired(token)) {
-          if (!$rootScope.isAuthenticated) {
-            authManager.authenticate();
-          }
-        }
-      }
-    }
-
     return {
       login: login,
       logout: logout,
-      registerAuthenticationListener: registerAuthenticationListener,
-      checkAuthOnRefresh: checkAuthOnRefresh
+      registerAuthenticationListener: registerAuthenticationListener
     }
   }
 })();

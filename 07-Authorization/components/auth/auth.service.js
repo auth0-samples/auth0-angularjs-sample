@@ -55,17 +55,6 @@
       return deferredProfile.promise;
     }
 
-    function checkAuthOnRefresh() {
-      var token = localStorage.getItem('id_token');
-      if (token) {
-        if (!jwtHelper.isTokenExpired(token)) {
-          if (!$rootScope.isAuthenticated) {
-            authManager.authenticate();
-          }
-        }
-      }
-    }
-
     function isAdmin() {
       return userProfile && userProfile.app_metadata
         && userProfile.app_metadata.roles
@@ -85,7 +74,6 @@
       login: login,
       logout: logout,
       registerAuthenticationListener: registerAuthenticationListener,
-      checkAuthOnRefresh: checkAuthOnRefresh,
       getProfileDeferred: getProfileDeferred
     }
   }

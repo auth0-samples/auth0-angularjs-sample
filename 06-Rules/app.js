@@ -6,9 +6,9 @@
     .module('app', ['auth0.lock', 'angular-jwt', 'ui.router'])
     .config(config);
 
-  config.$inject = ['$stateProvider', 'lockProvider', '$urlRouterProvider'];
+  config.$inject = ['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwtOptionsProvider'];
 
-  function config($stateProvider, lockProvider, $urlRouterProvider) {
+  function config($stateProvider, lockProvider, $urlRouterProvider, jwtOptionsProvider) {
 
     $stateProvider
       .state('home', {
@@ -30,6 +30,19 @@
     });
 
     $urlRouterProvider.otherwise('/home');
+
+    // Configuration for angular-jwt
+    jwtOptionsProvider.config({
+      tokenGetter: ['options', function (options) {
+        if (options && options.url.substr(options.url.length - 5) == '.html') {
+          return null;
+        }
+        return localStorage.getItem('id_token');
+      }],
+      whiteListedDomains: ['localhost'],
+      unauthenticatedRedirectPath: '/login'
+    });
+
   }
 
 })();
