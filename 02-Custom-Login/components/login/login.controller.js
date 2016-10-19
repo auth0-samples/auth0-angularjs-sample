@@ -6,46 +6,46 @@
     .module('app')
     .controller('LoginController', loginController);
 
-  loginController.$inject = ['$scope', 'authService'];
+  loginController.$inject = ['authService'];
 
-  function loginController($scope, authService) {
+  function loginController(authService) {
 
-    // Put the authService on $scope to access
-    // the login method in the view
-    $scope.authService = authService;
+    var vm = this;
 
-    $scope.login = function () {
+   vm.authService = authService;
+
+    vm.login = function () {
       // Show loading indicator
-      $scope.message = 'loading...';
-      $scope.loading = true;
-      authService.login($scope.user, $scope.pass, function (err) {
+      vm.message = 'loading...';
+      vm.loading = true;
+      authService.login(vm.user, vm.pass, function (err) {
         if (err) {
-          $scope.message = "something went wrong: " + err.message;
-          $scope.loading = false;
+          vm.message = "something went wrong: " + err.message;
+          vm.loading = false;
         }
       });
     };
 
-    $scope.signup = function () {
+    vm.signup = function () {
       // Show loading indicator
-      $scope.message = 'loading...';
-      $scope.loading = true;
-      authService.signup($scope.user, $scope.pass, function (err) {
+      vm.message = 'loading...';
+      vm.loading = true;
+      authService.signup(vm.user, vm.pass, function (err) {
         if (err) {
-          $scope.message = "something went wrong: " + err.message;
-          $scope.loading = false;
+          vm.message = "something went wrong: " + err.message;
+          vm.loading = false;
         }
       });
     };
 
-    $scope.googleLogin = function () {
-      $scope.message = 'loading...';
-      $scope.loading = true;
+    vm.googleLogin = function () {
+      vm.message = 'loading...';
+      vm.loading = true;
 
       authService.googleLogin(function (err) {
         if (err) {
-          $scope.message = "something went wrong: " + err.message;
-          $scope.loading = false;
+          vm.message = "something went wrong: " + err.message;
+          vm.loading = false;
         }
       });
     };
