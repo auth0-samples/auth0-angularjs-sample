@@ -27,9 +27,9 @@ This sample shows how to serve the application with a simple Node.js server usin
 
 # Using `html5Mode(true)` with Auth0
 
-A common pattern in single page apps is to have a navigation bar at the top of the page and have various app routes rendered below with **Log In** button is provided in the navbar to allow users to log in from any route. This becomes a challenge when setting `$locationProvider.html5Mode(true)` because it will require that you set any possible route as an **Allowed Callback URL** in your Angular application, which isn't scalable.
+A common pattern in single page apps is to have a navigation bar at the top of the page and have various app routes rendered below with a **Log In** button provided in the navbar to allow users to log in from any route. This becomes a challenge when setting `$locationProvider.html5Mode(true)` because it will require that you set any possible route as an **Allowed Callback URL** in your Angular application, which isn't scalable.
 
-To solve this issue, you can configure Lock to use a specific `callbackURL`. When specifying a `callbackURL`, your must set `responseType: token`. This is all done within the `options` object in your `lockProvider.init`.
+To solve this issue, you can configure Lock to use a specific `callbackURL`. When specifying a `callbackURL`, you must set `responseType: token`. This is all done within the `options` object in your `lockProvider.init`.
 
 ```js
 // app.js
