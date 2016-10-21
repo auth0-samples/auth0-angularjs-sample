@@ -1,0 +1,14 @@
+{
+  "name": "08-calling-api",
+  "version": "0.0.0",
+  "description": "This example shows how to make authenticated API calls using the JSON Web Token given by Auth0 in your Ionic application. You can read a quickstart for this sample [here](https://auth0.com/docs/quickstart/spa/angularjs/08-calling-apis).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Auth0",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}

@@ -6,9 +6,9 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['lock', 'authManager', '$q'];
+  authService.$inject = ['lock', 'authManager', '$q', '$state'];
 
-  function authService(lock, authManager, $q) {
+  function authService(lock, authManager, $q, $state) {
 
     var userProfile = JSON.parse(localStorage.getItem('profile')) || null;
     var deferredProfile = $q.defer();
@@ -18,6 +18,7 @@
     }
 
     function login() {
+      localStorage.setItem('returnTo', $state.current.name);
       lock.show();
     }
 
@@ -38,6 +39,7 @@
         localStorage.setItem('id_token', authResult.idToken);
         authManager.authenticate();
 
+
         lock.getProfile(authResult.idToken, function (error, profile) {
           if (error) {
             return console.log(error);
@@ -45,6 +47,9 @@
 
           localStorage.setItem('profile', JSON.stringify(profile));
           deferredProfile.resolve(profile);
+          
+          var returnTo = localStorage.getItem('returnTo');
+          $state.go(returnTo);
         });
 
       });

@@ -1,7 +1,7 @@
 <html ng-app="app">
   <head>
     <title>08 - Calling Api</title>
-
+    <base href="/">
     <!-- Viewport settings-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -11,6 +11,9 @@
       .navbar{
         margin-bottom: 0;
         border-radius: 0;
+      }
+      #login {
+        cursor: pointer;
       }
     </style>
   </head>
@@ -22,7 +25,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li ng-if="!isAuthenticated"><a ui-sref="login">Log In</a></li>
+            <li ng-if="!isAuthenticated"><a id="login" ng-click="authService.login()">Log In</a></li>
             <li ng-if="isAuthenticated"><a ui-sref="home" ng-click="authService.logout()">Log Out</a></li>
             <li><a ui-sref="ping">Ping</a></li>
             <li><a ui-sref="home">Home</a></li>

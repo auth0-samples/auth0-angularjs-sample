@@ -6,9 +6,13 @@
     .module('app', ['auth0.lock', 'angular-jwt', 'ui.router'])
     .config(config);
 
-  config.$inject = ['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwtOptionsProvider', '$httpProvider'];
+  config.$inject = ['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwtOptionsProvider', '$httpProvider', '$locationProvider'];
 
-  function config($stateProvider, lockProvider, $urlRouterProvider, jwtOptionsProvider, $httpProvider) {
+  function config($stateProvider, lockProvider, $urlRouterProvider, jwtOptionsProvider, $httpProvider, $locationProvider) {
+
+    $locationProvider.html5Mode(true);
+    
+    $urlRouterProvider.otherwise('/home');
 
     $stateProvider
       .state('home', {
@@ -32,10 +36,16 @@
 
     lockProvider.init({
       clientID: AUTH0_CLIENT_ID,
-      domain: AUTH0_DOMAIN
+      domain: AUTH0_DOMAIN,
+      options: {
+        auth: {
+          params: {
+            callbackURL: 'http://localhost:3000/callback',
+            respone: 'token'
+          }
+        }
+      }
     });
-
-    $urlRouterProvider.otherwise('/home');
 
     // Configuration for angular-jwt
     jwtOptionsProvider.config({

@@ -1,112 +1,93 @@
-# Calling API
+# Calling an API
 
-This example shows how to make authenticated API calls using the JSON Web Token given by Auth0 in your Ionic application.
-You can read a quickstart for this sample [here](https://auth0.com/docs/quickstart/spa/angularjs/08-calling-apis). 
+This example shows how to make authenticated API calls using the JSON Web Token returned by Auth0 when you log into your application. It also demonstrates how to use UI Router with `html5Mode(true).`
+
+The sample is configured to use a single `callback` route that is redirected to on successful authentication. This route needs to be added to your **Allowed Callack URLs** for your application in your [Auth0 dashboard](https://manage.auth0.com/#/clients).
+
+You can clone and configure a [Node.js API sample](https://github.com/auth0/node-auth0/tree/master/examples/nodejs-api) to make authenticated calls to an API.
 
 ## Getting Started
 
-To run this quickstart you can fork and clone this repo.
+To get started, rename the `auth0-variables.js.example` file in the `public` directory to `auth0-variables.js` and provide your Auth0 client ID and domain.
 
-Be sure to set the correct values for your Auth0 application in the `auth0.variables.js` file.
-
-To run the application
+Next, install the dependencies and run the app.
 
 ```bash
 # Install the dependencies
 bower install
+npm install
 
-# Get the plugins
-ionic state restore --plugins
-
-# Run
-ionic serve
+# Run the app
+npm start
 ```
 
+## How the Angular App is Served
 
-## Create a Simple Server
+This sample shows how to serve the application with a simple Node.js server using Express. The reason an Express server is set up rather than just using something like **http-server** or **serve** is that some configuation is needed to allow `html5Mode` routes to properly render. For more on this topic, see this [discussion](https://stackoverflow.com/questions/16569841/reloading-the-page-gives-wrong-get-request-with-angularjs-html5-mode).
 
-To demonstrate how a server would handle public and private endpoints, you can create a simple `node.js` server based on [`express`](https://expressjs.com/) and [`express-jwt`](https://github.com/auth0/express-jwt) with only two endpoints: `/ping` and `/secured/ping`:
+# Using `html5Mode(true)` with Auth0
 
-```javascript
-/* ===== ./server.js ===== */
-var http = require('http');
-var express = require('express');
-var cors = require('cors');
-var app = express();
-var jwt = require('express-jwt');
+A common pattern in single page apps is to have a navigation bar at the top of the page and have various app routes rendered below with **Log In** button is provided in the navbar to allow users to log in from any route. This becomes a challenge when setting `$locationProvider.html5Mode(true)` because it will require that you set any possible route as an **Allowed Callback URL** in your Angular application, which isn't scalable.
 
-var authenticate = jwt({
-  secret: new Buffer('YOUR_SERCRET', 'base64'),
-  audience: 'YOUR_CLIENT_ID'
-});
-
-app.use(cors());
-
-app.get('/ping', function(req, res) {
-  res.send(200, {text: "All good. You don't need to be authenticated to call this"});
-});
-
-app.get('/secured/ping', authenticate, function(req, res) {
-  res.send(200, {text: "All good. You only get this message if you're authenticated"});
-});
-
-var port = process.env.PORT || 3001;
-
-http.createServer(app).listen(port, function (err) {
-  console.log('listening in http://localhost:' + port);
-});
-```
-
-Both endpoints send a JSON response with a message attribute, but `/secured/ping` uses the __authenticate__ callback to validate the token received in the `Authorization` header. `express-jwt` is responsible for parsing and validating the token. (For more details, see the [express-jwt](https://github.com/auth0/express-jwt) documentation). 
-
-To test the server, run `node server.js`. It should be listening on port 3001 of `localhost`.
-
-Also you can [view](https://github.com/auth0-samples/auth0-angularjs-sample/tree/master/Server) the simple server on GitHub.
-
-
-## Important Snippets
-
-### 1. Implement the ping controller
+To solve this issue, you can configure Lock to use a specific `callbackURL`. When specifying a `callbackURL`, your must set `responseType: token`. This is all done within the `options` object in your `lockProvider.init`.
 
 ```js
-// components/ping/ping.controller.js
-(function () {
+// app.js
 
-  ...
-
-  function PingController(authService, $http) {
-
-    var vm = this;
-    vm.authService = authService;
-
-    // The user's JWT will automatically be attached
-    // as an authorization header on HTTP requests
-    vm.ping = function () {
-      $http.get('http://localhost:3001/secured/ping')
-        .then(function (result) {
-          vm.pingResult = result.data.text;
-        }, function (error) {
-          console.log(error);
-          vm.pingResult = error.statusText;
-        });
+lockProvider.init({
+  clientID: AUTH0_CLIENT_ID,
+  domain: AUTH0_DOMAIN,
+  options: {
+    auth: {
+      params: {
+        callbackURL: 'http://localhost:3000/callback',
+        respone: 'token'
+      }
     }
-
   }
-
-}());
+});
 ```
 
-### 2. Display `ping` buttons in the ping view 
+With this set, the only route you need to whitelist in your **Allowed Callback URLs** in your Auth0 dashboard is `http://localhost:3000/callback`.
 
-```html
-<!-- components/ping/ping.html -->
+## Returning to the Last State
 
-<div class="jumbotron">
-  <h2 class="text-center"><img src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg"></h2>
-  <h2 class="text-center">Ping</h2>
-  <div class="text-center">
-    <button ng-click="vm.ping()" class="btn btn-primary">Ping</button>
-    <h2 ng-if="vm.pingResult">{{ vm.pingResult }}</h2>
-  </div>
-</div>
+One implication of specifying a `callbackURL` when using Lock is that it forces you to return the user to a default location after login is successful. This default is usually specified with `$urlRouterProvider.otherwise`.
+
+If you would like to return the user to where they left off before logging in, you can store their current state in local storage when they click the **Log In** button.
+
+```js
+// components/auth/auth.service.js
+
+function login() {
+  localStorage.setItem('returnTo', $state.current.name);
+  lock.show();
+}
+```
+
+This `returnTo` value can then be used in the authentication success handler to send the user back to the state they were at when they clicked the **Log In** button.
+
+```js
+// components/auth/auth.service.js
+
+function registerAuthenticationListener() {
+  lock.on('authenticated', function (authResult) {
+    localStorage.setItem('id_token', authResult.idToken);
+    authManager.authenticate();
+
+
+    lock.getProfile(authResult.idToken, function (error, profile) {
+      if (error) {
+        return console.log(error);
+      }
+
+      localStorage.setItem('profile', JSON.stringify(profile));
+      deferredProfile.resolve(profile);
+      
+      var returnTo = localStorage.getItem('returnTo');
+      $state.go(returnTo);
+    });
+
+  });
+}
 ```
