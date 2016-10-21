@@ -11,7 +11,7 @@
   function config($stateProvider, lockProvider, $urlRouterProvider, jwtOptionsProvider, $httpProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
-    
+
     $urlRouterProvider.otherwise('/home');
 
     $stateProvider
@@ -40,7 +40,7 @@
       options: {
         auth: {
           params: {
-            callbackURL: 'http://localhost:3000/callback',
+            callbackURL: AUTH0_CALLBACK_URL,
             respone: 'token'
           }
         }
