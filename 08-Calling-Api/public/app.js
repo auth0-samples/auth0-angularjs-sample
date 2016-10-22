@@ -32,6 +32,9 @@
         controller: 'PingController',
         templateUrl: 'components/ping/ping.html',
         controllerAs: 'vm'
+      })
+      .state('callback', {
+        url: '/callback'
       });
 
     lockProvider.init({
