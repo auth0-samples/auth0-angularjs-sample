@@ -1,6 +1,6 @@
 # Customizing Lock
 
-This example shows how to customize the `Lock` widget. Sometimes you need to change some UI stuff so this is what we are going to do.
+This example shows how to customize the `Lock` widget.
 
 You can read a quickstart for this sample [here](https://auth0.com/docs/quickstart/spa/angularjs/10-customizing-lock). 
 
@@ -10,17 +10,17 @@ To run this quickstart you can fork and clone this repo.
 
 Be sure to set the correct values for your Auth0 application in the `auth0.variables.js` file.
 
-To run the application
+To run the application:
 
 ```bash
 # Install the dependencies
 bower install
 
-# Get the plugins
-ionic state restore --plugins
+# Install simple web server
+npm install -g serve
 
 # Run
-ionic serve
+serve
 ```
 
 

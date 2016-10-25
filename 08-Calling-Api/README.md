@@ -1,6 +1,7 @@
-# Calling API
+# Calling an API
 
-This example shows how to make authenticated API calls using the JSON Web Token given by Auth0 in your Ionic application.
+This example shows how to make authenticated API calls using the JSON Web Token given by Auth0 in your Angular application.
+
 You can read a quickstart for this sample [here](https://auth0.com/docs/quickstart/spa/angularjs/08-calling-apis). 
 
 ## Getting Started
@@ -9,17 +10,17 @@ To run this quickstart you can fork and clone this repo.
 
 Be sure to set the correct values for your Auth0 application in the `auth0.variables.js` file.
 
-To run the application
+To run the application:
 
 ```bash
 # Install the dependencies
 bower install
 
-# Get the plugins
-ionic state restore --plugins
+# Install simple web server
+npm install -g serve
 
 # Run
-ionic serve
+serve
 ```
 
 
@@ -28,7 +29,8 @@ ionic serve
 To demonstrate how a server would handle public and private endpoints, you can create a simple `node.js` server based on [`express`](https://expressjs.com/) and [`express-jwt`](https://github.com/auth0/express-jwt) with only two endpoints: `/ping` and `/secured/ping`:
 
 ```javascript
-/* ===== ./server.js ===== */
+// ./server.js
+
 var http = require('http');
 var express = require('express');
 var cors = require('cors');

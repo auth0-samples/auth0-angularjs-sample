@@ -10,19 +10,18 @@ To run this quickstart you can fork and clone this repo.
 
 Be sure to set the correct values for your Auth0 application in the `auth0.variables.js` file.
 
-To run the application
+To run the application:
 
 ```bash
 # Install the dependencies
 bower install
 
-# Get the plugins
-ionic state restore --plugins
+# Install simple web server
+npm install -g serve
 
 # Run
-ionic serve
+serve
 ```
-
 
 ## Important Snippets
 
