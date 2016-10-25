@@ -1,0 +1,12 @@
+{
+  "name": "auth0-server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://github.com/auth0-samples/auth0-angularjs-sample",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "express-jwt": "^3.4.0"
+  }
+}
