@@ -23,6 +23,10 @@ npm install -g serve
 serve
 ```
 
+## Pinging an API
+
+The sample demonstrates how to ping an API with the `access_token` returned to the user. The Resource Server (API) should be configured to verify the JWT and any claims contained within it. Because the Resource Server is utilizing the RS256 signature method, tokens are signed using Auth0's private key for your account. Verification is done using the corresponding public key, which can be found at the following standard [JWKS (JSON Web Key set)](https://self-issued.info/docs/draft-ietf-jose-json-web-key.html). You can use any [recommended JWT library](https://jwt.io) to validate the standard claims returned in the token. More information can be found [in our documentation](https://auth0.com/docs/api-auth/config/asking-for-access-tokens).
+
 ## What is Auth0?
 
 Auth0 helps you to:
