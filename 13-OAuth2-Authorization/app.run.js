@@ -11,7 +11,7 @@
       $rootScope.authService = authService;
 
       // Process the auth token if it exists and fetch the profile
-      authService.authenticateAndGetProfile();
+      authService.registerAuthenticationListener();
 
       authManager.checkAuthOnRefresh();
     });

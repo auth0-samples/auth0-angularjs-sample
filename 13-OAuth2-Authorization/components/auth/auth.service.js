@@ -6,15 +6,15 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['angularAuth0', 'authManager', '$location'];
+  authService.$inject = ['angularAuth0', 'authManager'];
 
-  function authService(angularAuth0, authManager, $location) {
+  function authService(angularAuth0, authManager) {
 
-    function login(username, password, callback) {
+    function login() {
       angularAuth0.login({
         responseType: 'id_token token',
-        scope: 'openid profile {API_SCOPES}',
-        audience: '{API_IDENTIFIER}'
+        scope: 'openid profile',
+        audience: 'https://api.test.com'
       });
     }
 
@@ -26,7 +26,7 @@
       authManager.unauthenticate();
     }
 
-    function authenticateAndGetProfile() {
+    function registerAuthenticationListener() {
       var result = angularAuth0.parseHash(window.location.hash);
 
       if (result && result.idToken) {
@@ -41,7 +41,7 @@
     return {
       login: login,
       logout: logout,
-      authenticateAndGetProfile: authenticateAndGetProfile
+      registerAuthenticationListener: registerAuthenticationListener
     }
   }
 })();
