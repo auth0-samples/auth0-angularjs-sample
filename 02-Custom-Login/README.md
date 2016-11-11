@@ -1,91 +1,199 @@
-# 02 - Custom Login
+# Custom Login
 
-This seed project shows an example of adding custom authentication to an Angular 1.x app with Auth0. This is useful for cases where you would like to provide your own UI for authenticating users. The sample uses [auth0.js](https://github.com/auth0/auth0.js) and [angular-auth0](https://github.com/auth0/angular-auth0).
+This example shows how to add ***Login/SignUp*** to your application using a custom Login screen.
 
-## Installation
+You can read a quickstart for this sample [Angular 1.x Quickstart](https://auth0.com/docs/quickstart/spa/angularjs/02-custom-login). 
+
+## Getting Started
+
+To run this quickstart you can fork and clone this repo.
+
+Be sure to set the correct values for your Auth0 application in the `auth0.variables.js` file.
+
+To run the application
 
 ```bash
+# Install the dependencies
 bower install
+
+# Install simple web server
+npm install -g serve
+
+# Run
+serve
 ```
 
-Place your Auth0 `clientID` and `domain` in `angularAuth0Provider.init`.
 
-```js
-// app.js
+## Important Snippets
 
-...
+### 1. Add `auth0.js` and `angular-auth.js` dependencies
 
-// Initialization for the angular-auth0 library
-angularAuth0Provider.init({
-  clientID: AUTH0_CLIENT_ID,
-  domain: AUTH0_DOMAIN
-});
-
-...
+```html
+<!-- index.html -->
+<body>
+  ...
+  <!-- Auth0's JS library -->
+  <script type="text/javascript" src="bower_components/auth0.js/build/auth0.js"></script>
+  <!-- auth0-angular -->
+  <script type="text/javascript" src="bower_components/angular-auth0/dist/angular-auth0.js"></script>
+  ...
+</body>
 ```
 
-Provide functions for logging in and signing up.
+### 2. Login with auth0	
 
 ```js
 // components/auth/auth.service.js
+(function () {
 
-...
+  ...
 
-function authService($rootScope, angularAuth0, authManager, $location) {
+  function authService(angularAuth0, authManager, $location) {
 
-  function login(username, password, callback) {
-    angularAuth0.login({
-      connection: 'Username-Password-Authentication',
-      responseType: 'token',
-      email: username,
-      password: password,
-    }, callback);
+    function login(username, password, callback) {
+      angularAuth0.login({
+        connection: 'Username-Password-Authentication',
+        responseType: 'token',
+        email: username,
+        password: password,
+      }, callback);
+    }
+
+    function signup(username, password, callback) {
+      angularAuth0.signup({
+        connection: 'Username-Password-Authentication',
+        responseType: 'token',
+        email: username,
+        password: password
+      }, callback);
+    }
+
+    function googleLogin(callback) {
+      angularAuth0.login({
+        connection: 'google-oauth2',
+        responseType: 'token'
+      }, callback);
+    }
+
+
+    // Logging out just requires removing the user's
+    // id_token and profile
+    function logout() {
+      localStorage.removeItem('id_token');
+      localStorage.removeItem('profile');
+      authManager.unauthenticate();
+    }
+
+    function authenticateAndGetProfile() {
+      var result = angularAuth0.parseHash(window.location.hash);
+
+      if (result && result.idToken) {
+        localStorage.setItem('id_token', result.idToken);
+        authManager.authenticate();
+        angularAuth0.getProfile(result.idToken, function (error, profileData) {
+          if (error) {
+            console.log(error);
+          }
+
+          localStorage.setItem('profile', JSON.stringify(profileData));
+          $location.path('/');
+        });
+      } else if (result && result.error) {
+        alert('error: ' + result.error);
+      }
+    }
+
+    return {
+      login: login,
+      logout: logout,
+      authenticateAndGetProfile: authenticateAndGetProfile,
+      signup: signup,
+      googleLogin: googleLogin
+    }
   }
-
-  function signup(username, password, callback) {
-    angularAuth0.signup({
-      connection: 'Username-Password-Authentication',
-      responseType: 'token',
-      email: username,
-      password: password
-    }, callback);
-  }
-
-...
+})();
 ```
 
-To run this starter seed, you can use `http-server`:
+### 3. Display `username` and `password` inputs, `login` and `loginWithGoogle` buttons
 
-```bash
-npm install -g http-server
-
-http-server
+```html
+<!-- components/login/login.html -->
+<div class="jumbotron">
+  <h2 class="text-center"><img src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg"></h2>
+  <h2 class="text-center">Login</h2>
+  <p class="text-center">{{message}}</p>
+</div>
+<div class="container">
+  <div class="col-md-3">
+    <div id="login-container">
+      <form>
+        <fieldset>
+          <label for="user">User</label>
+          <input class="form-control" id="user" type="text" name="user" ng-model="user" ng-disabled="loading"/>
+          <br>
+          <label for="password">Password</label>
+          <input class="form-control" id="password" type="password" name="pass" ng-model="pass" ng-disabled="loading"/>
+          <br>
+          <button class="btn btn-primary" type="submit" ng-disabled="loading" ng-click="login()">Login</button>
+          <button class="btn btn-primary" type="submit" ng-disabled="loading" ng-click="signup()">Sign Up</button>
+        </fieldset>
+      </form>
+      <a href="" ng-click="googleLogin()">Login with Google</a><br/>
+    </div>
+  </div>
+</div>
 ```
 
-## What is Auth0?
+### 4. Update the `Login` controller
 
-Auth0 helps you to:
+```js
+// components/login/login.controller.js
+(function () {
 
-* Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, among others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
-* Add authentication through more traditional **[username/password databases](https://docs.auth0.com/mysql-connection-tutorial)**.
-* Add support for **[linking different user accounts](https://docs.auth0.com/link-accounts)** with the same user.
-* Support for generating signed [JSON Web Tokens](https://docs.auth0.com/jwt) to call your APIs and **flow the user identity** securely.
-* Analytics of how, when and where users are logging in.
-* Pull data from other sources and add it to the user profile, through [JavaScript rules](https://docs.auth0.com/rules).
+  ...
 
-## Create a free account in Auth0
+  function loginController($scope, authService) {
 
-1. Go to [Auth0](https://auth0.com) and click Sign Up.
-2. Use Google, GitHub or Microsoft Account to login.
+    // Put the authService on $scope to access
+    // the login method in the view
+    $scope.authService = authService;
 
-## Issue Reporting
+    $scope.login = function () {
+      // Show loading indicator
+      $scope.message = 'loading...';
+      $scope.loading = true;
+      authService.login($scope.user, $scope.pass, function (err) {
+        if (err) {
+          $scope.message = "something went wrong: " + err.message;
+          $scope.loading = false;
+        }
+      });
+    };
 
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
+    $scope.signup = function () {
+      // Show loading indicator
+      $scope.message = 'loading...';
+      $scope.loading = true;
+      authService.signup($scope.user, $scope.pass, function (err) {
+        if (err) {
+          $scope.message = "something went wrong: " + err.message;
+          $scope.loading = false;
+        }
+      });
+    };
 
-## Author
+    $scope.googleLogin = function () {
+      $scope.message = 'loading...';
+      $scope.loading = true;
 
-[Auth0](auth0.com)
+      authService.googleLogin(function (err) {
+        if (err) {
+          $scope.message = "something went wrong: " + err.message;
+          $scope.loading = false;
+        }
+      });
+    };
+  }
 
-## License
-
-This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
+})();
+```

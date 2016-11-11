@@ -1,0 +1,49 @@
+<html ng-app="app">
+  <head>
+    <title>07 - Authorization</title>
+
+    <!-- Viewport settings-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Basic style -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+      <style>
+      .navbar{
+        margin-bottom: 0;
+        border-radius: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" ui-sref="home">Auth0</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li ng-if="!isAuthenticated"><a ui-sref="login">Log In</a></li>
+            <li ng-if="isAuthenticated"><a ui-sref="home" ng-click="authService.logout()">Log Out</a></li>
+            <li><a ui-sref="admin">Admin</a></li>
+            <li><a ui-sref="home">Home</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div ui-view></div>
+
+    <script type="text/javascript" src="auth0-variables.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script type="text/javascript" src="bower_components/auth0-lock/build/lock.js"></script>
+    <script type="text/javascript" src="bower_components/angular-lock/dist/angular-lock.js"></script>
+    <script type="text/javascript" src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="app.run.js"></script>
+    <script type="text/javascript" src="components/home/home.controller.js"></script>
+    <script type="text/javascript" src="components/login/login.controller.js"></script>
+    <script type="text/javascript" src="components/admin/admin.controller.js"></script>
+    <script type="text/javascript" src="components/auth/auth.service.js"></script>
+  </body>
+</html>

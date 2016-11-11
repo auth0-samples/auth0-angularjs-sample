@@ -1,0 +1,22 @@
+<div class="jumbotron">
+  <h2 class="text-center"><img src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg"></h2>
+  <h2 class="text-center">Home</h2>
+  <div class="text-center" ng-if="!isAuthenticated">
+    <p>You are not yet authenticated. <a ui-sref="login">Log in.</a></p>
+  </div>
+  <div class="text-center" ng-if="isAuthenticated">
+    <h2>Welcome, {{ vm.profile.nickname }}</h2>
+    <img ng-src="{{ vm.profile.picture }}">
+  </div>
+  <div class="identities-wrap" ng-if="isAuthenticated">
+    <button class="btn btn-primary" ng-click="vm.linkAccount()">Link Account</button>
+    <ul class="list-group identities-list">
+      <h3>Associated Accounts</h3>
+      <li class="list-group-item identities-item" ng-repeat="identity in vm.identities">
+        <img ng-src="{{identity.profileData.picture}}"/>
+        <span>{{ identity.profileData.name || identity.profileData.email }}</span>
+        <button class="btn btn-danger" ng-click="vm.unLinkAccount(identity)"><i class="glyphicon glyphicon-trash"></i></button>
+      </li>
+    </ul>
+  </div>
+</div>

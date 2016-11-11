@@ -1,0 +1,11 @@
+<div class="jumbotron">
+  <h2 class="text-center"><img src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg"></h2>
+  <h2 class="text-center">Home</h2>
+  <div class="text-center" ng-if="!isAuthenticated">
+    <p>You are not yet authenticated. <a ui-sref="login">Log in.</a></p>
+  </div>
+  <div class="text-center" ng-if="isAuthenticated">
+    <h2>Welcome, {{ vm.profile.nickname }}</h2>
+    <img ng-src="{{ vm.profile.picture }}">
+  </div>
+</div>

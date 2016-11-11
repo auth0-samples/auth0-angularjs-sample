@@ -1,54 +1,54 @@
-(function() {
+(function () {
 
   'use strict';
 
   angular
     .module('app')
-    .controller('loginController', loginController);
+    .controller('LoginController', loginController);
 
-    loginController.$inject = ['$scope', 'authService'];
+  loginController.$inject = ['authService'];
 
-    function loginController($scope, authService) {
+  function loginController(authService) {
 
-      // Put the authService on $scope to access
-      // the login method in the view
-      $scope.authService = authService;
+    var vm = this;
 
-      $scope.login = function () {
-        // Show loading indicator
-        $scope.message = 'loading...';
-        $scope.loading = true;
-        authService.login($scope.user, $scope.pass, function(err) {
-          if(err) {
-            $scope.message = "something went wrong: " + err.message;
-            $scope.loading   = false;
-          }
-        });
-      };
+   vm.authService = authService;
 
-      $scope.signup = function () {
-        // Show loading indicator
-        $scope.message = 'loading...';
-        $scope.loading = true;
-        authService.signup($scope.user, $scope.pass, function(err) {
-          if(err) {
-            $scope.message = "something went wrong: " + err.message;
-            $scope.loading = false;
-          }
-        });
-      };
+    vm.login = function () {
+      // Show loading indicator
+      vm.message = 'loading...';
+      vm.loading = true;
+      authService.login(vm.user, vm.pass, function (err) {
+        if (err) {
+          vm.message = "something went wrong: " + err.message;
+          vm.loading = false;
+        }
+      });
+    };
 
-      $scope.googleLogin = function () {
-        $scope.message = 'loading...';
-        $scope.loading = true;
+    vm.signup = function () {
+      // Show loading indicator
+      vm.message = 'loading...';
+      vm.loading = true;
+      authService.signup(vm.user, vm.pass, function (err) {
+        if (err) {
+          vm.message = "something went wrong: " + err.message;
+          vm.loading = false;
+        }
+      });
+    };
 
-        authService.googleLogin(function(err) {
-          if(err) {
-            $scope.message = "something went wrong: " + err.message;
-            $scope.loading = false;
-          }
-        });
-      };
-    }
+    vm.googleLogin = function () {
+      vm.message = 'loading...';
+      vm.loading = true;
+
+      authService.googleLogin(function (err) {
+        if (err) {
+          vm.message = "something went wrong: " + err.message;
+          vm.loading = false;
+        }
+      });
+    };
+  }
 
 })();
