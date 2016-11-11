@@ -1,4 +1,4 @@
-<html ng-app="app">
+<html>
   <head>
     <title>13 - OAuth2 API Authorization</title>
 
@@ -15,23 +15,25 @@
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" ui-sref="home">Auth0</a>
+    <div ng-app="app">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" ui-sref="home">Auth0</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a ui-sref="home">Home</a></li>
+              <li ng-if="!isAuthenticated"><a href="javascript:;" ng-click="authService.login()">Log In</a></li>
+              <li ng-if="isAuthenticated"><a ui-sref="home" ng-click="authService.logout()">Log Out</a></li>
+              <li><a ui-sref="ping">Ping</a></li>
+            </ul>
+          </div>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a ui-sref="home">Home</a></li>
-            <li ng-if="!isAuthenticated"><a href="javascript:;" ng-click="authService.login()">Log In</a></li>
-            <li ng-if="isAuthenticated"><a ui-sref="home" ng-click="authService.logout()">Log Out</a></li>
-            <li><a ui-sref="ping">Ping</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+      </nav>
 
-    <div ui-view></div>
+      <div ui-view></div>
+    </div>
 
     <script type="text/javascript" src="auth0-variables.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
