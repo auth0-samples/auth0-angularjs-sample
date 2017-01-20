@@ -6,9 +6,9 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['angularAuth0', 'authManager', '$location', '$state'];
+  authService.$inject = ['$state', 'angularAuth0', 'authManager'];
 
-  function authService(angularAuth0, authManager, $location, $state) {
+  function authService($state, angularAuth0, authManager) {
 
     function login(username, password) {
       angularAuth0.client.login({
@@ -46,12 +46,9 @@
       });
     }
 
-    // Logging out just requires removing the user's
-    // id_token and profile
     function logout() {
       localStorage.removeItem('access_token');
       localStorage.removeItem('id_token');
-      localStorage.removeItem('profile');
     }
 
     function setUser(authResult) {
