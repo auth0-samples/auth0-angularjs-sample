@@ -6,69 +6,67 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['angularAuth0', 'authManager', '$location'];
+  authService.$inject = ['$state', 'angularAuth0', 'authManager'];
 
-  function authService(angularAuth0, authManager, $location) {
+  function authService($state, angularAuth0, authManager) {
 
-    function login(username, password, callback) {
-      angularAuth0.login({
-        connection: 'Username-Password-Authentication',
-        responseType: 'token',
-        email: username,
+    function login(username, password) {
+      angularAuth0.client.login({
+        realm: 'Username-Password-Authentication',
+        username: username,
         password: password,
-      }, callback);
+      }, function(err, authResult) {
+        if (err) alert(err.description);
+        if (authResult && authResult.idToken) {
+          setUser(authResult);
+          $state.go('home');
+        }
+      });
     }
 
-    function signup(username, password, callback) {
-      angularAuth0.signup({
+    function signup(username, password) {
+      angularAuth0.redirect.signupAndLogin({
         connection: 'Username-Password-Authentication',
-        responseType: 'token',
         email: username,
         password: password
-      }, callback);
+      });
     }
 
-    function googleLogin(callback) {
-      angularAuth0.login({
-        connection: 'google-oauth2',
-        responseType: 'token'
-      }, callback);
+    function loginWithGoogle() {
+      angularAuth0.authorize({
+        connection: 'google-oauth2'
+      });
+    }
+    
+    function handleParseHash() {
+      angularAuth0.parseHash(function(err, authResult) {
+        if (authResult && authResult.idToken) {
+          setUser(authResult);
+        }
+      });
     }
 
-
-    // Logging out just requires removing the user's
-    // id_token and profile
     function logout() {
+      localStorage.removeItem('access_token');
       localStorage.removeItem('id_token');
-      localStorage.removeItem('profile');
-      authManager.unauthenticate();
     }
 
-    function authenticateAndGetProfile() {
-      var result = angularAuth0.parseHash(window.location.hash);
+    function setUser(authResult) {
+      localStorage.setItem('access_token', authResult.accessToken);
+      localStorage.setItem('id_token', authResult.idToken);
+    }
 
-      if (result && result.idToken) {
-        localStorage.setItem('id_token', result.idToken);
-        authManager.authenticate();
-        angularAuth0.getProfile(result.idToken, function (error, profileData) {
-          if (error) {
-            console.log(error);
-          }
-
-          localStorage.setItem('profile', JSON.stringify(profileData));
-          $location.path('/');
-        });
-      } else if (result && result.error) {
-        alert('error: ' + result.error);
-      }
+    function isAuthenticated() {
+      return authManager.isAuthenticated();
     }
 
     return {
       login: login,
-      logout: logout,
-      authenticateAndGetProfile: authenticateAndGetProfile,
       signup: signup,
-      googleLogin: googleLogin
+      loginWithGoogle: loginWithGoogle,
+      handleParseHash: handleParseHash,
+      logout: logout,
+      isAuthenticated: isAuthenticated
     }
   }
 })();

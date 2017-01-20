@@ -11,7 +11,7 @@
   function homeController(authService) {
 
     var vm = this;
-    vm.authService = authService;
+    vm.auth = authService;
 
   }
 
