@@ -9,18 +9,18 @@
     <div id="login-container">
       <form>
         <fieldset>
-          <label for="user">User</label>
-          <input class="form-control" id="user" type="text" name="user" ng-model="vm.user" ng-disabled="vm.loading"/>
+          <label for="user">Username</label>
+          <input class="form-control" id="username" type="text" name="username" ng-model="vm.username" ng-disabled="vm.loading"/>
           <br>
           <label for="password">Password</label>
-          <input class="form-control" id="password" type="password" name="pass" ng-model="vm.pass" ng-disabled="vm.loading"/>
+          <input class="form-control" id="password" type="password" name="password" ng-model="vm.password" ng-disabled="vm.loading"/>
           <br>
-          <button class="btn btn-primary" type="submit" ng-disabled="vm.loading" ng-click="vm.login()">Login</button>
-          <button class="btn btn-primary" type="submit" ng-disabled="vm.loading" ng-click="vm.signup()">Sign Up</button>
+          <button class="btn btn-primary" type="submit" ng-disabled="vm.loading" ng-click="vm.auth.login(vm.username, vm.password)">Log In</button>
+          <button class="btn btn-primary" type="submit" ng-disabled="vm.loading" ng-click="vm.auth.signup(vm.username, vm.password)">Sign Up</button>
         </fieldset>
       </form>
 
-      <a href="javascript:;" ng-click="vm.googleLogin()">Login with Google</a><br/>
+      <a href="javascript:;" ng-click="vm.auth.loginWithGoogle()">Log In with Google</a><br/>
     </div>
   </div>
 </div>
