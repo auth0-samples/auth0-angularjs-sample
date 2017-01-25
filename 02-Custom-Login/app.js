@@ -29,7 +29,6 @@
       clientID: AUTH0_CLIENT_ID,
       domain: AUTH0_DOMAIN,
       responseType: 'token id_token',
-      audience: 'https://' + AUTH0_DOMAIN + '/userinfo',
       redirectUri: AUTH0_CALLBACK_URL
     });
 
