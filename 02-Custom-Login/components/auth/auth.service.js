@@ -40,6 +40,9 @@
     
     function handleParseHash() {
       angularAuth0.parseHash(function(err, authResult) {
+        if (err) {
+          console.log(err);
+        }
         if (authResult && authResult.idToken) {
           setUser(authResult);
         }
