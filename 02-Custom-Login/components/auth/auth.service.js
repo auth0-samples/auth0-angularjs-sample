@@ -39,7 +39,9 @@
     }
     
     function handleParseHash() {
-      angularAuth0.parseHash(function(err, authResult) {
+      angularAuth0.parseHash(
+        { _idTokenVerification: false },
+        function(err, authResult) {
         if (err) {
           console.log(err);
         }

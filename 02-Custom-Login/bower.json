@@ -21,7 +21,7 @@
     "angular-jwt": "^0.1.9",
     "angular-ui-router": "~0.3.1",
     "bootstrap": "~3.3.7",
-    "auth0.js": "^8.1.2"
+    "auth0.js": "^8.3.0"
   },
   "resolutions": {
     "angular": "1.5.8"
