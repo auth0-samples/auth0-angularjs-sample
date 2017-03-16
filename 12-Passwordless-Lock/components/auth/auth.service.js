@@ -31,6 +31,10 @@
         $state.go('home');
         lockPasswordless.close();
       });
+
+      lock.on('authorization_error', function (err) {
+        console.log(err);
+      });
     }
 
     // Logging out just requires removing the user's

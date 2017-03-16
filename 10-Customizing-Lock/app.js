@@ -28,6 +28,7 @@
       clientID: AUTH0_CLIENT_ID,
       domain: AUTH0_DOMAIN,
       options: {
+        _idTokenVerification: false,
         theme: {
           logo: 'https://auth0.com/lib/homepage/img/logo-tmz.svg',
           primaryColor: "#b81b1c"

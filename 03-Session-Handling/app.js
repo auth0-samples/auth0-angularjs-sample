@@ -26,7 +26,10 @@
 
     lockProvider.init({
       clientID: AUTH0_CLIENT_ID,
-      domain: AUTH0_DOMAIN
+      domain: AUTH0_DOMAIN,
+      options: {
+        _idTokenVerification: false
+      }
     });
 
     $urlRouterProvider.otherwise('/home');

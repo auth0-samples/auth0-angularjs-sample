@@ -48,6 +48,10 @@
         });
 
       });
+
+      lock.on('authorization_error', function (err) {
+        console.log(err);
+      });
     }
     
     function getProfileDeferred() {
