@@ -1,4 +1,4 @@
-# Auth0 - Angular 1.x Sample
+# Auth0 - Angular 1.x
 
 This repo provides samples which demonstrate how to use Auth0 in Angular 1.x applications.
 
