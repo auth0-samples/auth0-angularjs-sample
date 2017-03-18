@@ -11,16 +11,12 @@
   function authService($state, angularAuth0, authManager) {
 
     function login(username, password) {
-      angularAuth0.client.login({
-        realm: 'Username-Password-Authentication',
+      angularAuth0.redirect.loginWithCredentials({
+        connection: 'Username-Password-Authentication',
         username: username,
         password: password,
-      }, function(err, authResult) {
-        if (err) alert(err.description);
-        if (authResult && authResult.idToken) {
-          setUser(authResult);
-          $state.go('home');
-        }
+      }, function(err) {
+        if (err) return alert(err.description);
       });
     }
 
@@ -29,6 +25,8 @@
         connection: 'Username-Password-Authentication',
         email: username,
         password: password
+      }, function(err) {
+        if (err) return alert(err.description);
       });
     }
 
