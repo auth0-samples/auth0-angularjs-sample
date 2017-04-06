@@ -37,10 +37,6 @@
         .when('/login', {
           controller: 'loginController',
           templateUrl: 'components/login/login.html'
-        })
-        .when('/ping', {
-          controller: 'pingController',
-          templateUrl: 'components/ping/ping.html'
         });
     }
 
